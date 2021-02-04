@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.rog//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.netchus.mapper.EnvironmentMapper">
+<resultMap type="com.netchus.domain.EnvironmentVO" id="EnvVO">
+		<result property="useFlag" column="use_flag" />
+		<result property="sensorId" column="sensor_id" />
+		<result property="name" column="name" />
+		<result property="SO2" column="SO2" />   
+		<result property="CO" column="CO" />   	
+		<result property="NO2" column="NO2" />   	
+		<result property="PM10" column="PM10" />   	
+		<result property="PM25" column="PM25" />   	
+		<result property="PM1" column="PM1" />   	
+		<result property="TC" column="TC" />   	
+		<result property="useFlag" column="use_flag" />   	
+		<result property="humidity" column="HUMIDITY" />   	
+		<result property="dataTime" column="data_time" />
+		<result property="regDate" column="reg_date" />
+</resultMap>
+ 
+<resultMap type="hashMap" id="EnvMap">
+		<result property="name" column="name" />
+		<result property="so2" column="so2" />   
+		<result property="co" column="co" />   	
+		<result property="no2" column="no2" />   	
+		<result property="pm10" column="pm10" />   	
+		<result property="pm2_5" column="pm2_5" />   	
+		<result property="pm1" column="pm1" />   	
+		<result property="tc" column="tc" />
+		<result property="humidity" column="h" />   	
+		<result property="dataTime" column="data_time" />
+		<result property="regDate" column="reg_date" />
+</resultMap>
+
+<!-- 	<select id="getList" resultMap="EnvVO">
+	SELECT id
+	FROM Environment
+	ORDER BY reg_date DESC
+	limit 10
+	</select> -->
+	<!-- 지금 db테이블이 test라서 이 query문은 작동하지 않을거임 -->
+
+<!-- <insert id="insert" parameterType="List">
+	insert into SensorData_Test (id, name, SO2, CO, O3, NO2, PM10, PM25, PM1, TC, use_flag, HUMIDITY, sensor_id, data_time, reg_date)
+	values 
+	<foreach collection="list" item="map" separator=",">
+		(#{map.psuedoId},
+		#{map.sensorName},
+		#{map.WP001},
+		#{map.WP009},
+		#{map.WP028},
+		#{map.WP010},
+		#{map.WP007}, 
+		#{map.WP008},
+		#{map.WP027},
+		#{map.WP031},
+		#{map.useFlag},
+		#{map.WP002},
+		#{map.sensorId},
+		#{map.createTime},
+		now())
+	</foreach>
+</insert> -->
+
+<!-- select 부분도 필요한데 일단은 저거 insert를 동적으로 모든 키, 모든 값 넣을수 있게 수정하는게 좋겠다. -->
+<select id="getTest" resultMap="EnvMap">
+	select s.sName as name, t.so2, t.co, t.no2, t.pm10, t.pm2_5, t.pm1, t.tc, t.h, t.data_time as dataTime, t.reg_date as regDate from Sensor s , SensorData_Test t
+	GROUP BY t.reg_date 
+	ORDER BY t.reg_date DESC
+	limit 10
+</select>
+
+
+
+</mapper>
+	
